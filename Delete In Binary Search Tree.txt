@@ -1,0 +1,49 @@
+/**
+ * public class TreeNode {
+ *   public int key;
+ *   public TreeNode left;
+ *   public TreeNode right;
+ *   public TreeNode(int key) {
+ *     this.key = key;
+ *   }
+ * }
+ */
+public class Solution {
+  public TreeNode deleteTree(TreeNode root, int key) {
+    // Write your solution here
+    //do it in recursive way
+    
+    if(root == null){
+      return root;
+    }
+    if(key < root.key){
+      root.left = deleteTree(root.left, key);
+    }
+    else if(key > root.key){
+      root.right = deleteTree(root.right, key);
+    }
+    else{
+      //key == root.key;
+      if(root.left == null && root.right == null){
+        return null;
+      }
+      if(root.left == null){
+        return root.right;
+      }
+      if(root.right == null){
+        return root.left;
+      }
+      //else find the smallest key larger than target
+      //copy it to root
+      //recursively delete that key in root.right
+      TreeNode replace = root.right;
+      while(replace.left != null){
+        replace = replace.left;
+      }
+      root.key = replace.key;
+      root.right = deleteTree(root.right, replace.key);
+    }
+    return root;
+  }
+
+}

@@ -1,0 +1,36 @@
+/**
+ * public class TreeNode {
+ *   public int key;
+ *   public TreeNode left;
+ *   public TreeNode right;
+ *   public TreeNode(int key) {
+ *     this.key = key;
+ *   }
+ * }
+ */
+public class Solution {
+  public int closest(TreeNode root, int target) {
+    // Write your solution here
+    //Assumptions: root is not null
+    
+    int closestNumber = root.key;
+    TreeNode cur = root;
+    
+    while(cur != null){
+      if(target == cur.key){
+        return target;
+      }
+      if(Math.abs(target - cur.key) < Math.abs(target - closestNumber)){
+        closestNumber = cur.key;
+      }
+      if(target < cur.key){
+        cur = cur.left;
+      }
+      else{
+        cur = cur.right;
+      }
+    }
+    
+    return closestNumber;
+  }
+}

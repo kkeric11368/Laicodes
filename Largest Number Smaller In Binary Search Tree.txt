@@ -1,0 +1,31 @@
+/**
+ * public class TreeNode {
+ *   public int key;
+ *   public TreeNode left;
+ *   public TreeNode right;
+ *   public TreeNode(int key) {
+ *     this.key = key;
+ *   }
+ * }
+ */
+public class Solution {
+  public int largestSmaller(TreeNode root, int target) {
+    // Write your solution here
+    if(root == null){
+      return Integer.MIN_VALUE;
+    }
+    int res = Integer.MIN_VALUE;
+    TreeNode cur = root;
+    
+    while(cur != null){
+      if(cur.key >= target){
+        cur = cur.left;
+      }
+      else{
+        res = Math.max(cur.key, res);
+        cur = cur.right;
+      }
+    }
+    return res;
+  }
+}

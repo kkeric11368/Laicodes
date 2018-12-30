@@ -1,0 +1,49 @@
+public class Solution {
+  class Element{
+    int indexOfArray;
+    int indexInArray;
+    int value;
+    Element(int i, int j, int v){
+      indexOfArray = i;
+      indexInArray = j;
+      value = v;
+    }
+  }
+  public int[] merge(int[][] arrayOfArrays) {
+    // Write your solution here
+    if(arrayOfArrays == null){
+      return new int[0];
+    }
+    
+    PriorityQueue<Element> heads = new PriorityQueue<Element>(arrayOfArrays.length, new Comparator<Element>(){
+      @Override
+      public int compare(Element e1, Element e2){
+        if(e1.value == e2.value){
+          return 0;
+        }
+        return e1.value < e2.value ? -1 : 1;
+      }
+    });
+    int lengthOfResult = 0;
+    for(int[] array : arrayOfArrays){
+      lengthOfResult += array.length;
+    }
+    int[] res = new int[lengthOfResult];
+    
+    for(int indexOfArray = 0; indexOfArray < arrayOfArrays.length; indexOfArray++){
+      if(arrayOfArrays[indexOfArray] == null || arrayOfArrays[indexOfArray].length == 0){
+        continue;
+      }
+      heads.offer(new Element(indexOfArray, 0, arrayOfArrays[indexOfArray][0]));
+    }
+    for(int i = 0; !heads.isEmpty(); i++){
+      Element curElement = heads.poll();
+      res[i] = curElement.value;
+      if(curElement.indexInArray < (arrayOfArrays[curElement.indexOfArray].length - 1)){
+        heads.offer(new Element(curElement.indexOfArray, curElement.indexInArray + 1,
+                                arrayOfArrays[curElement.indexOfArray][curElement.indexInArray + 1]));
+      }
+    }
+    return res;
+  }
+}

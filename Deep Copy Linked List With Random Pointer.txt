@@ -1,0 +1,56 @@
+/**
+ * class RandomListNode {
+ *   public int value;
+ *   public RandomListNode next;
+ *   public RandomListNode random;
+ *   public RandomListNode(int value) {
+ *     this.value = value;
+ *   }
+ * }
+ */
+public class Solution {
+  public RandomListNode copy(RandomListNode head) {
+    // Write your solution here.
+    if(head == null){
+      return null;
+    }
+    
+    RandomListNode newHead = new RandomListNode(head.value);
+    RandomListNode res = newHead;
+    Map<RandomListNode, RandomListNode> createdNodes = new HashMap<>();
+    
+    while(head != null){
+      if(createdNodes.containsKey(head.next)){
+        newHead.next = createdNodes.get(head.next);
+      }
+      else{
+        if(head.next == null){
+          newHead.next = null;
+          createdNodes.put(null,null);
+        }
+        else{
+          newHead.next = new RandomListNode(head.next.value);
+          createdNodes.put(head.next, newHead.next);
+        }
+      }
+      if(createdNodes.containsKey(head.random)){
+        newHead.random = createdNodes.get(head.random);
+      }
+      else{
+        if(head.random == null){
+          newHead.random = null;
+          createdNodes.put(null, null);
+        }
+        else{
+          newHead.random = new RandomListNode(head.random.value);
+          createdNodes.put(head.random, newHead.random);
+        }
+      }
+      head = head.next;
+      newHead = newHead.next;
+      
+    }
+    return res;
+    
+  }
+}
