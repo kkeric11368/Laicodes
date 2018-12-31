@@ -1,0 +1,33 @@
+public class Solution {
+  public int minCost(int[] cuts, int length) {
+    // Write your solution here
+    //Assumptions: length >= 1
+    if(cuts == null || cuts.length == 0){
+      return 0;
+    }
+    if(cuts.length == 1){
+      return length;
+    }
+    
+    // M[i][j] represents the smallest cost from the i th cut to the j th cut
+    // The start and end of the log are extra two cuts
+    int[][] M = new int[cuts.length + 2][cuts.length + 2];
+
+    for(int size = 1; size <= (cuts.length + 1); size++){
+      for(int start = 0; start <= (cuts.length + 1 - size); start++){
+        if(size == 1){
+          M[start][start + size] = 0;
+        }
+        else{
+          for(int newCut = 1; newCut < size; newCut++){
+            int begin = start == 0 ? 0 : cuts[start - 1];
+            int end = (start + size) > cuts.length ? length : cuts[start + size - 1];
+            int newCost = M[start][start + newCut] + M[start + newCut][start + size] + (end - begin);
+            M[start][start + size] = M[start][start + size] == 0 ? newCost : Math.min(M[start][start + size], newCost);
+          }
+        }
+      }
+    }
+    return M[0][cuts.length + 1];
+  }
+}
