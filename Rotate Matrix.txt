@@ -1,0 +1,17 @@
+public class Solution {
+  public void rotate(int[][] matrix) {
+    // Write your solution here
+    if(matrix == null || matrix.length == 0){
+      return;
+    }
+    for(int level = 0; level < ((matrix.length + 1) / 2); level++){
+      for(int index = level; index < (matrix.length - 1 - level); index++){
+        int temp = matrix[level][index];
+        matrix[level][index] = matrix[matrix.length - 1 - index][level];
+        matrix[matrix.length - 1 - index][level] = matrix[matrix.length - 1 - level][matrix.length - 1 - index];
+        matrix[matrix.length - 1 - level][matrix.length - 1 - index] = matrix[index][matrix.length - 1 - level];
+        matrix[index][matrix.length - 1 - level] = temp;
+      }
+    }
+  }
+}

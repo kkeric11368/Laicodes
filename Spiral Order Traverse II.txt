@@ -1,0 +1,31 @@
+public class Solution {
+  public List<Integer> spiral(int[][] matrix) {
+    // Write your solution here
+    List<Integer> res = new ArrayList<>();
+    if(matrix == null || matrix.length == 0 || matrix[0].length == 0){
+      return res;
+    }
+    
+    for(int level = 0; level < Math.min((matrix.length + 1)/2, (matrix[0].length + 1)/2); level++){
+      int i = 0 + level;
+      int j = 0 + level;
+      for(; j < (matrix[0].length - 1 - level); j++){
+        res.add(matrix[i][j]);
+      }
+      for(; i < (matrix.length - 1 - level); i++){
+        res.add(matrix[i][j]);
+      }
+      if((2 * level + 1) == matrix[0].length || (2 * level + 1) == matrix.length){
+        res.add(matrix[i][j]);
+        break;
+      }
+      for(; j > (0 + level); j--){
+        res.add(matrix[i][j]);
+      }
+      for(; i > (0 + level); i--){
+        res.add(matrix[i][j]);
+      }
+    }
+    return res;
+  }
+}

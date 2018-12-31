@@ -1,0 +1,27 @@
+/**
+ * public class TreeNode {
+ *   public int key;
+ *   public TreeNode left;
+ *   public TreeNode right;
+ *   public TreeNode(int key) {
+ *     this.key = key;
+ *   }
+ * }
+ */
+public class Solution {
+  public TreeNode reverse(TreeNode root) {
+    // Write your solution here
+    return reverseHelper(root, null, null);
+  }
+  private TreeNode reverseHelper(TreeNode root, TreeNode left, TreeNode right){
+    if(root == null){
+      return left;
+    }
+    TreeNode newLeft = root;
+    TreeNode newRight = root.right;
+    TreeNode newRoot = root.left;
+    root.left = left;
+    root.right = right;
+    return reverseHelper(newRoot, newLeft, newRight);
+  }
+}

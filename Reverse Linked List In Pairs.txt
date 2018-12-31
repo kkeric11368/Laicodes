@@ -1,0 +1,26 @@
+/**
+ * class ListNode {
+ *   public int value;
+ *   public ListNode next;
+ *   public ListNode(int value) {
+ *     this.value = value;
+ *     next = null;
+ *   }
+ * }
+ */
+public class Solution {
+  public ListNode reverseInPairs(ListNode head) {
+    // Write your solution here
+    if(head == null){
+      return null;
+    }
+    if(head.next == null){
+      return head;
+    }
+    ListNode newHead = head.next;
+    ListNode nextHead = head.next.next;
+    head.next.next = head;
+    head.next = reverseInPairs(nextHead);
+    return newHead;
+  }
+}

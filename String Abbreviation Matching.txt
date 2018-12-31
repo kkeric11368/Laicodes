@@ -1,0 +1,35 @@
+public class Solution {
+  public boolean match(String input, String pattern) {
+    // Write your solution here
+    //Assumptions: coding with ASCll
+    int inputIndex = 0;
+    for(int patternIndex = 0; patternIndex < pattern.length();){
+      if(inputIndex > input.length()){
+        return false;
+      }
+      char curChar = pattern.charAt(patternIndex);
+      if(curChar >= 48 && curChar <= 57){
+        int curCount = 0;
+        int i = 1;
+        for(i = 1; curChar >= 48 && curChar <= 57; i++){
+          curCount = curCount * 10 + (int)curChar - 48;
+          if((patternIndex + i) >= pattern.length()){
+            i++;
+            break;
+          }
+          curChar = pattern.charAt(patternIndex + i);
+        }
+        inputIndex += curCount;
+        patternIndex += i > 1 ? (i - 1) : 1;
+      }
+      else{
+        if(curChar != input.charAt(inputIndex)){
+          return false;
+        }
+        patternIndex++;
+        inputIndex++;
+      }
+    }
+    return inputIndex == input.length();
+  }
+}
