@@ -1,0 +1,91 @@
+public class Solution {
+  static class Element{
+    int[] index;
+    double distance;
+    Element(int index0, int index1, int index2, int[][] input){
+      this.index = new int[3];
+      this.index[0] = index0;
+      this.index[1] = index1;
+      this.index[2] = index2;
+      distance = distance(this, input);
+    }
+    Element(Element e, int[][] input){
+      index = new int[3];
+      index[0] = e.index[0];
+      index[1] = e.index[1];
+      index[2] = e.index[2];
+      distance = distance(this, input);
+    }
+    @Override
+    public boolean equals(Object obj){
+      if(this == obj){
+        return true;
+      }
+      if(!(obj instanceof Element)){
+        return false;
+      }
+      Element e = (Element)obj;
+      return this.index[0] == e.index[0] && this.index[1] == e.index[1] && this.index[2] == e.index[2];
+    }
+    @Override
+    public int hashCode(){
+      return index[0] * 101 + index[1] * 73 + index[2] * 37;
+    }
+  }
+  
+  public List<Integer> closest(int[] a, int[] b, int[] c, int k) {
+    // Write your solution here
+    //Assumptions: a, b, c are not null or empty
+    // k >= 1 && k <= a.length * b.length * c.length
+    // a, b, c are sorted
+    int[][] input = new int[][]{a, b, c}; 
+    int[] index = new int[3];
+    List<Integer> res = new ArrayList<>();
+    Set<Element> checked = new HashSet<>();
+    PriorityQueue<Element> smallPoints = new PriorityQueue<Element>(11, new Comparator<Element>(){
+      @Override
+      public int compare(Element e1, Element e2){
+        if(e1.distance == e2.distance){
+          return 0;
+        }
+        return e1.distance < e2.distance ? -1 : 1;
+      }
+    });
+    Element curElement = new Element(index[0], index[1], index[2], input);
+    smallPoints.offer(curElement);
+    checked.add(curElement);
+    
+    for(; k > 0; k--){
+      curElement = smallPoints.poll();
+      if(k == 1){
+        for(int i = 0; i < 3; i++){
+          index[i] = curElement.index[i];
+        }
+        break;
+      }
+      for(int i = 0; i < 3; i++){
+        if((curElement.index[i] + 1) >= input[i].length){
+          continue;
+        }
+        curElement.index[i]++;
+        if(!checked.contains(curElement)){
+          Element nextElement = new Element(curElement,input);
+          smallPoints.offer(nextElement);
+          checked.add(nextElement);
+        }
+        curElement.index[i]--;
+      }
+    }
+    for(int i = 0; i < 3; i++){
+      res.add(input[i][index[i]]);
+    }
+    return res;
+    
+  }
+  
+  static private double distance(Element e, int[][] input){
+    return Math.pow((double)input[0][e.index[0]] * (double)input[0][e.index[0]]
+                    + (double)input[1][e.index[1]] * (double)input[1][e.index[1]]
+                    + (double)input[2][e.index[2]] * (double)input[2][e.index[2]], 0.5);
+  }
+}

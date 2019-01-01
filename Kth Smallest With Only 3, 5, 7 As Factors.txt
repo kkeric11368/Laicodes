@@ -1,0 +1,24 @@
+public class Solution {
+  public long kth(int k) {
+    // Write your solution here
+    //Assumptions: k >= 1
+    //Numbers will not out of range in long type
+    Set<Long> checkedNumbers = new HashSet<>();
+    PriorityQueue<Long> nextNumbers = new PriorityQueue<>();    
+    long cur = 105;
+    nextNumbers.offer(cur);
+    checkedNumbers.add(cur);
+    
+    for(; k > 0; k--){
+      cur = nextNumbers.poll();
+      for(long i = 3; i <= 7; i += 2){
+        long next = cur * i;
+        if(!checkedNumbers.contains(next) && cur <= (Long.MAX_VALUE / i)){
+          nextNumbers.offer(next);
+          checkedNumbers.add(next);
+        }
+      }
+    }
+    return cur;
+  }
+}

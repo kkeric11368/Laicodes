@@ -1,0 +1,57 @@
+public class Solution {
+  public class Element{
+    String word1;
+    String word2;
+    int product;
+    Element(String s1, String s2){
+      word1 = s1;
+      word2 = s2;
+      product = s1.length() * s2.length();
+    }
+  }
+  
+  
+  public int largestProduct(String[] dict) {
+    // Write your solution here
+    //Use a max-heap to find the protential-largest pair of words
+    if(dict == null || dict.length == 0){
+      return 0;
+    }
+    PriorityQueue<Element> words = new PriorityQueue<Element>(dict.length * dict.length, new Comparator<Element>(){
+      @Override
+      public int compare(Element e1, Element e2){
+        if(e1.product == e2.product){
+          return 0;
+        }
+        return e1.product > e2.product ? -1 : 1;
+      }
+    });
+    
+    for(int i = 0; i < dict.length; i++){
+      for(int j = i + 1; j < dict.length; j++){
+        words.offer(new Element(dict[i], dict[j]));
+      }
+    }
+    while(!words.isEmpty()){
+      Element curElement = words.poll();
+      if(!containSameChar(curElement.word1, curElement.word2)){
+        return curElement.product;
+      }
+    }
+    return 0;
+    
+  }
+  
+  private boolean containSameChar(String s1, String s2){
+    Set<Character> charsInS1 = new HashSet<Character>();
+    for(int i = 0; i < s1.length(); i++){
+      charsInS1.add(s1.charAt(i));
+    }
+    for(int j = 0; j < s2.length(); j++){
+      if(charsInS1.contains(s2.charAt(j))){
+        return true;
+      }
+    }
+    return false;
+  }
+}

@@ -1,0 +1,41 @@
+public class Solution {
+  public List<Integer> common(int[] a, int[] b, int[] c) {
+    // Write your solution here
+    int i1 = 0;
+    int i2 = 0;
+    int i3 = 0;
+    int curMax = Integer.MIN_VALUE;
+    List<Integer> res = new ArrayList<Integer>();
+    
+    while(i1 < a.length && i2 < b.length && i3 < c.length){
+      while(a[i1] < curMax){
+        i1++;
+        if(i1 >= a.length){
+          return res;
+        }
+      }
+      curMax = Math.max(curMax, a[i1]);
+      while(b[i2] < curMax){
+        i2++;
+        if(i2 >= b.length){
+          return res;
+        }
+      }
+      curMax = Math.max(curMax, b[i2]);
+      while(c[i3] < curMax){
+        i3++;
+        if(i3 >= c.length){
+          return res;
+        }
+      }
+      curMax = Math.max(curMax, c[i3]);
+      if(a[i1] == b[i2] && b[i2] == c[i3]){
+        res.add(a[i1]);
+        i1++;
+        i2++;
+        i3++;
+      }
+    }
+    return res;
+  }
+}
