@@ -1,0 +1,33 @@
+public class Solution {
+  public int[] search(int[][] matrix, int target) {
+    // Write your solution here
+    int[] result = new int[]{-1, -1};
+    if(matrix == null || matrix.length == 0 || matrix[0].length == 0){
+      return result;
+    }
+    int length = matrix.length * matrix[0].length;
+    int left = 0;
+    int right = length - 1;
+    while(left <= right){
+      int mid = (left + right) / 2;
+      if(matrixAt(matrix, mid) == target){
+        result[0] = mid / matrix[0].length;
+        result[1] = mid % matrix[0].length;
+        break;
+      }
+      if(target < matrixAt(matrix, mid)){
+        right = mid - 1;
+      }
+      else{
+        left = mid + 1;
+      }
+    }
+    return result;
+  }
+  private int matrixAt(int[][] matrix, int position){
+    return matrix[position / matrix[0].length][position % matrix[0].length];
+  }
+}
+
+// time complexity O(log(N*M))
+// space complexity O(1)

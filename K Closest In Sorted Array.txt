@@ -1,0 +1,52 @@
+public class Solution {
+  public int[] kClosest(int[] array, int target, int k) {
+    // Write your solution here
+    //Assumptions: array is not null;
+    //k >= 0 K <=arry.length
+    int[] result = new int[k];
+    if(k == 0){
+      return result;
+    }
+    int left = 0;
+    int right = array.length - 1;
+    int center = -1;
+    while(left < (right - 1)){
+      int mid = (left + right) / 2;
+      if(target == array[mid]){
+        center = mid;
+        break;
+      }
+      if(target < array[mid]){
+        right = mid;
+      }
+      else{
+        left = mid;
+      }
+    }
+    if(center == -1){
+      center = Math.abs(array[left] - target) < Math.abs(array[right] - target) ? left : right;
+    }
+    int centerLeft = center - 1;
+    int centerRight = center + 1;
+    int closest = center;
+    for(int i = 0; i < k; i++){
+      result[i] = array[closest];
+      if(centerLeft < 0){
+        closest = centerRight++;
+      }
+      else if(centerRight > (array.length - 1)){
+        closest = centerLeft--;
+      }
+      else if(Math.abs(array[centerLeft] - target) < Math.abs(array[centerRight] - target)){
+        closest = centerLeft--;
+      }
+      else{
+        closest = centerRight++;
+      }
+    }
+    return result;
+  }
+}
+
+// time complexity O(log(n))
+// space complexity O(1)

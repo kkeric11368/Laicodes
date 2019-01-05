@@ -1,0 +1,49 @@
+//Given a integer dictionary A of unknown size, where the numbers in the dictionary are sorted in ascending order, determine if a given target integer T is in the dictionary. Return the index of T in A, return -1 if T is not in A.
+
+/*
+*  interface Dictionary {
+*    public Integer get(int index);
+*  }
+*/
+
+// You do not need to implement the Dictionary interface.
+// You can use it directly, the implementation is provided when testing your solution.
+public class Solution {
+  public int search(Dictionary dict, int target) {
+    // Write your solution here
+    // dict != null
+    
+    int leftEdge = 0;
+    int rightEdge = 0;
+    Integer rightEdgeValue = dict.get(rightEdge);
+    while(rightEdgeValue != null && rightEdgeValue < target){
+      leftEdge = rightEdge;
+      rightEdge = (rightEdge + 1) * 2;
+      rightEdgeValue = dict.get(rightEdge);
+    }
+    int left = leftEdge;
+    int right = rightEdge;
+    while(left <= right){
+      int mid = (left + right) / 2;
+      Integer midValue = dict.get(mid);
+      if(midValue == null){
+        right = mid - 1;
+        continue;
+      }
+      if(target == midValue){
+        return mid;
+      }
+      if(target < midValue){
+        right = mid - 1;
+      }
+      else{
+        left = mid + 1;
+      }
+    }
+    return -1;
+  }
+}
+
+// time complexity O(log(index of target)) if target is smaller than the largest number in dict
+//                 O(log(size of dict)) if target islarger than the largest number in dict
+// space complexity O(1)
