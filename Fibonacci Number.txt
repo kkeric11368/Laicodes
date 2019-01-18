@@ -1,0 +1,20 @@
+public class Solution {
+  public long fibonacci(int K) {
+    // Write your solution here    
+    if(K <= 0) {
+      return 0;
+    }
+    long prePreNumber = 0;
+    long preNumber = 1;
+    long currentNumber = 1;
+    for(int i = 2; i <= K; i++){
+      currentNumber = prePreNumber + preNumber;
+      prePreNumber = preNumber;
+      preNumber = currentNumber;
+    }
+    return currentNumber;
+  }
+}
+
+//time complexity: O(n)
+//space complexity: O(n)
